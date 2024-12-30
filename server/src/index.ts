@@ -5,13 +5,14 @@ import morgan from 'morgan'
 import bodyparser from 'body-parser'
 import dotenv from 'dotenv'
 import routesDashboard from './routes/routesDashboard'
+dotenv.config()
 const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(helmet())
 app.use(morgan('common'))
 app.use(bodyparser.json())
-dotenv.config()
+app.use(bodyparser.urlencoded({extended:false}))
 app.use(helmet.crossOriginResourcePolicy({policy:'cross-origin'}))
 const port = process.env.PORT || 3001
 app.use('/dashboard', routesDashboard)

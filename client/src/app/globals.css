@@ -19,7 +19,16 @@
     --foreground: #ededed;
   }
 }
-
+@media (min-width:768px){
+  .my-grid-rows{
+    grid-template-rows: repeat(8, 20vh);
+  }
+}
+@media (min-width:1280px){
+  .my-grid-rows{
+    grid-template-rows: repeat(8, 7.5vh);
+  }
+}
 body {
   color: var(--foreground);
   background: var(--background);
