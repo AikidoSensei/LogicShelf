@@ -7,7 +7,7 @@ import StoreProvider, { useAppSelector } from '../redux'
 const DashBoardLayout = ({ children }: { children: React.ReactNode }) => {
   const showSideBar = useAppSelector((state)=>state.global.showSideBar)
 	return (
-		<div className='w-screen h-screen flex'>
+		<div className='w-screen min-h-screen h-full flex'>
 			<SideBar />
 			<div className='flex flex-col w-full '>
 				<main
