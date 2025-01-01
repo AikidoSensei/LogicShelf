@@ -35,7 +35,8 @@ export const createProduct = async (req:Request, res:Response):Promise<void>=>{
 		})
 		res.status(201).json({ message: `${name} has been created successfully` })
 	} catch (error) {
-		res.status(500).json({ message: 'Could not retrieve product' })
+		console.log(error)
+		res.status(500).json({ message: 'Could not retrieve product',error },)
 	} finally {
 		await prisma.$disconnect()
 	}

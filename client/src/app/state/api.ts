@@ -6,6 +6,11 @@ export interface Product {
 	rating?: number
 	stockQuantity: number
 }
+export interface Users{
+	 userId: string 
+  name:   string
+  email:  string
+}
 export interface NewProduct {
 	name: string
 	price: number
@@ -45,7 +50,7 @@ export interface DashBoardMetrics {
 export const api = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
 	reducerPath: 'api',
-	tagTypes: ['DashboardMetrics', 'Products'],
+	tagTypes: ['DashboardMetrics', 'Products', 'Users'],
 	endpoints: (build) => ({
 		getMetrics: build.query<DashBoardMetrics, void>({
 			query: () => '/dashboard',
@@ -58,16 +63,23 @@ export const api = createApi({
 			}), // i always forgeting param is an object
 			providesTags: ['Products'],
 		}),
-		createProduct: build.mutation<Product,  NewProduct>({
+		createProduct: build.mutation<Product, NewProduct>({
 			query: (newProduct) => ({
 				url: '/products',
 				method: 'POST',
-				body: newProduct
-			}), 
+				body: newProduct,
+			}),
 			invalidatesTags: ['Products'],
+		}),
+		getUsers: build.query<Users[], string | void>({
+			query: (search) => ({
+				url: '/users',
+				params: search ? { search } : {},
+			}),
+			providesTags: ['Users'],
 		}),
 	}),
 })
 console.log(process.env.NEXT_PUBLIC_API_BASE_URL)
 
-export const { useGetMetricsQuery, useGetProductsQuery, useCreateProductMutation } = api
+export const { useGetMetricsQuery, useGetProductsQuery, useCreateProductMutation, useGetUsersQuery } = api

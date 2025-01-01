@@ -9,15 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProduct = exports.getProducts = void 0;
+exports.getUsers = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const search = (_a = req.query.search) === null || _a === void 0 ? void 0 : _a.toString();
-        const product = yield prisma.products.findMany({
-            where: {
+        const users = yield prisma.users.findMany({ where: {
                 name: {
                     contains: search,
                     mode: 'insensitive'
@@ -25,38 +24,18 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             },
             orderBy: {
                 name: 'desc'
-            }
-        });
-        res.json(product);
-    }
-    catch (error) {
-        res.status(500).json({ message: 'Could not retrieve product' });
-    }
-    finally {
-        yield prisma.$disconnect();
-    }
-});
-exports.getProducts = getProducts;
-const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { productId, name, price, rating, stockQuantity } = req.body;
-        yield prisma.products.create({
-            data: {
-                productId,
-                name,
-                price,
-                rating,
-                stockQuantity,
-            },
-        });
-        res.status(201).json({ message: `${name} has been created successfully` });
+            } });
+        if (!users) {
+            res.status(200).json({ message: 'No users found' });
+        }
+        res.status(200).json(users);
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'Could not retrieve product', error });
+        res.status(500).json({ message: 'Something went wrong' });
     }
     finally {
-        yield prisma.$disconnect();
+        prisma.$disconnect();
     }
 });
-exports.createProduct = createProduct;
+exports.getUsers = getUsers;

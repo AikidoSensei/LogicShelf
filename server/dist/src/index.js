@@ -11,6 +11,8 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const routesDashboard_1 = __importDefault(require("./routes/routesDashboard"));
 const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
+const usersRoutes_1 = __importDefault(require("./routes/usersRoutes"));
+const expenseRoutes_1 = __importDefault(require("./routes/expenseRoutes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -23,6 +25,8 @@ app.use(helmet_1.default.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 const port = process.env.PORT || 3001;
 app.use('/dashboard', routesDashboard_1.default);
 app.use('/products', productRoutes_1.default);
+app.use('/users', usersRoutes_1.default);
+app.use('/expenses', expenseRoutes_1.default);
 app.listen(port, () => {
     console.log(`App is running at ${port}`);
 });
