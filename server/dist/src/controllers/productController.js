@@ -39,7 +39,7 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getProducts = getProducts;
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { productId, name, price, rating, stockQuantity } = req.body;
+        const { productId, name, price, rating, stockQuantity, createdBy } = req.body;
         yield prisma.products.create({
             data: {
                 productId,
@@ -47,6 +47,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 price,
                 rating,
                 stockQuantity,
+                createdBy,
             },
         });
         res.status(201).json({ message: `${name} has been created successfully` });

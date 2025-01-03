@@ -8,6 +8,7 @@ import routesDashboard from './routes/routesDashboard'
 import routesProduct from './routes/productRoutes'
 import routesUsers from './routes/usersRoutes'
 import routesExpenses from './routes/expenseRoutes'
+import authRoutes from './routes/auth/authRoutes'
 dotenv.config()
 
 const app = express()
@@ -26,7 +27,7 @@ app.use('/dashboard', routesDashboard)
 app.use('/products', routesProduct )
 app.use('/users', routesUsers )
 app.use('/expenses', routesExpenses)
-
+app.use('/auth', authRoutes)
 app.listen(port, ()=>{
  console.log(`App is running at ${port}`)
 })

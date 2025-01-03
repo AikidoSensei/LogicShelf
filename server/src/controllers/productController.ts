@@ -23,7 +23,7 @@ export const getProducts = async (req:Request, res:Response):Promise<void>=>{
 
 export const createProduct = async (req:Request, res:Response):Promise<void>=>{
   try {
-		const { productId, name, price, rating, stockQuantity } = req.body
+		const { productId, name, price, rating, stockQuantity, createdBy } = req.body
 		await prisma.products.create({
 			data: {
 				productId,
@@ -31,6 +31,7 @@ export const createProduct = async (req:Request, res:Response):Promise<void>=>{
 				price,
 				rating,
 				stockQuantity,
+				createdBy,
 			},
 		})
 		res.status(201).json({ message: `${name} has been created successfully` })
