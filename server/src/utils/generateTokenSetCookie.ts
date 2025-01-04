@@ -3,9 +3,7 @@ import { Response } from 'express'
 import { strict } from 'assert'
 // import dotenv from 'dotenv'
 // dotenv.config()
-type id = {
- userId: string
-}
+
 export const generateTokenSetCookie = (res:Response, userid:string)=>{
  const secretKey = process.env.MY_SECRET;
   if (!secretKey) {

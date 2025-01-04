@@ -2,8 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const authController_1 = require("../../controllers/authController");
+const verifyToken_1 = require("../../middleware/verifyToken");
 const router = (0, express_1.Router)();
+router.get('/check-auth', verifyToken_1.verifyToken, authController_1.checkAuth);
 router.post('/login', authController_1.login);
-router.post('/signup', authController_1.signUp);
+router.post('/signup-org', authController_1.signUpOrganization);
+router.post('/signup-staff', authController_1.signUpStaff);
+router.post('/verify-email', authController_1.verifyEmail);
+router.post('/forgot-password', authController_1.forgotPassword);
+router.post('/reset-password/:token', authController_1.resetPassword);
 router.post('/logout', authController_1.logout);
 exports.default = router;

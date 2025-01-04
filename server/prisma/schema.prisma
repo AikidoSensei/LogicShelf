@@ -13,13 +13,14 @@ model Organizations {
   createdAt      DateTime @default(now())
   createdBy      String
   users          Users[] @relation("OrganizationUsers")
+  invitations Invitations[] @relation("OrganizationInvitations")
 }
 
 model Users {
   userId          String @id @default(cuid())
   name            String
   email           String @unique
-  role            String // 'ADMIN' or 'STAFF'
+  role            String 
   organizationId  String?
   organization    Organizations? @relation("OrganizationUsers", fields: [organizationId], references: [organizationId])
   UserAccounts    UserAccount[]
@@ -27,6 +28,7 @@ model Users {
   Sales           Sales[] @relation("SoldBy")
   Purchases       Purchases[] @relation("MadeBy")
 }
+
 
 model UserAccount {
   id        String   @id @default(cuid())
@@ -37,11 +39,24 @@ model UserAccount {
   updatedAt DateTime @updatedAt
   userId    String
   Users     Users    @relation(fields: [userId], references: [userId])
+  isVerified Boolean @default(false)
   resetPasswordToken String?
-  resetPasswordExpiresAt String?
+  resetPasswordExpiresAt DateTime?
   verificationToken String?
-  verificationTokenExpiresAt String?
+  verificationTokenExpiresAt DateTime?
 }
+model Invitations {
+  id             String    @id @default(uuid()) 
+  email          String    @unique 
+  organizationId String   
+  expiresAt      DateTime  
+  isAccepted     Boolean   @default(false) 
+  createdAt      DateTime  @default(now()) 
+  updatedAt      DateTime  @updatedAt      
+  organization   Organizations @relation("OrganizationInvitations", fields: [organizationId], references: [organizationId])
+  @@index([email, organizationId])
+}
+
 
 model Products {
   productId     String @id @default(cuid())
