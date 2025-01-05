@@ -5,7 +5,7 @@ import NavBar from '../(components)/NavBar'
 import StoreProvider, { useAppSelector } from '../redux'
 
 const DashBoardLayout = ({ children }: { children: React.ReactNode }) => {
-  const showSideBar = useAppSelector((state)=>state.global.showSideBar)
+	const showSideBar = useAppSelector((state) => state.global.showSideBar)
 	return (
 		<div className='w-screen min-h-screen h-full flex'>
 			<SideBar />

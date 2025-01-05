@@ -1,15 +1,15 @@
-import { SalesSummary, useGetMetricsQuery } from "../state/api"; 
-import { TrendingUp } from "lucide-react";
-import React, { useState } from "react";
+import { SalesSummary, useGetMetricsQuery } from '../state/api'
+import { TrendingUp } from 'lucide-react'
+import React, { useState } from 'react'
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+	Bar,
+	BarChart,
+	CartesianGrid,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from 'recharts'
 
 const MySalesSummary = () => {
 	const { data, isLoading, isError } = useGetMetricsQuery()
@@ -17,12 +17,12 @@ const MySalesSummary = () => {
 	const [timeframe, setTimeframe] = useState('weekly')
 
 	const totalValueSum = salesData
-		.map((entry) => entry.totalValue) 
-		.reduce((sum, value) => sum + value,  0) 
+		.map((entry) => entry.totalValue)
+		.reduce((sum, value) => sum + value, 0)
 
 	const averageChangePercentage = salesData.length
 		? salesData
-				.map((entry) => entry.changePercentage || 0) 
+				.map((entry) => entry.changePercentage || 0)
 				.reduce((sum, percentage) => sum + percentage, 0) / salesData.length
 		: 0
 
@@ -31,12 +31,11 @@ const MySalesSummary = () => {
 				entry.totalValue > highest.totalValue ? entry : highest
 		  )
 		: {
-      salesSummaryId: "",
-      totalValue: 0,
-      date: "",
-      changePercentage: 0,
-      
-    }
+				salesSummaryId: '',
+				totalValue: 0,
+				date: '',
+				changePercentage: 0,
+		  }
 
 	const highestValueDate = highestValueData.date
 		? new Date(highestValueData.date).toLocaleDateString('en-US', {
@@ -154,6 +153,6 @@ const MySalesSummary = () => {
 			)}
 		</div>
 	)
-};
+}
 
 export default MySalesSummary
