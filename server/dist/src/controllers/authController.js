@@ -176,7 +176,9 @@ const signUpStaff = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.signUpStaff = signUpStaff;
 const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { code } = req.body;
+    console.log(req.body);
     try {
+        // Find the user with the provided token
         const user = yield prisma.userAccount.findFirst({
             where: {
                 verificationToken: code,
@@ -184,11 +186,13 @@ const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             },
         });
         if (!user) {
-            res.status(400).json({ message: 'Verification code is invalid or expired' });
+            res.status(400).json({ message: 'Verification token invalid or expired' });
+            return;
         }
+        // Update the user to mark as verified
         yield prisma.userAccount.update({
             where: {
-                id: user === null || user === void 0 ? void 0 : user.id,
+                id: user.id,
             },
             data: {
                 isVerified: true,
@@ -196,18 +200,24 @@ const verifyEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 verificationTokenExpiresAt: null,
             },
         });
+        // Find the organization
         const organization = yield prisma.organizations.findFirst({
             where: {
-                createdBy: user === null || user === void 0 ? void 0 : user.email
-            }
+                createdBy: user.email,
+            },
         });
-        const org = (organization === null || organization === void 0 ? void 0 : organization.name) || '';
-        yield (0, email_1.welcomeEmail)(user === null || user === void 0 ? void 0 : user.email, org);
-        res.status(200).json({ success: true, message: 'Email verified successfully' });
+        const orgName = (organization === null || organization === void 0 ? void 0 : organization.name) || '';
+        // Send the welcome email
+        yield (0, email_1.welcomeEmail)(user.email, orgName);
+        // Respond with success
+        res
+            .status(200)
+            .json({ success: true, message: 'Email verified successfully' });
     }
     catch (error) {
-        console.log(error);
-        throw new Error('Error email not verified');
+        // Handle unexpected errors
+        res.status(500).json({ message: error.message });
+        console.error(error);
     }
 });
 exports.verifyEmail = verifyEmail;

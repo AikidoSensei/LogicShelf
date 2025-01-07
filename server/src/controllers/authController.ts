@@ -210,21 +210,24 @@ export const verifyEmail = async (
 	res: Response
 ): Promise<void> => {
 	const { code } = req.body
-	
+console.log(req.body)
 	try {
+		// Find the user with the provided token
 		const user = await prisma.userAccount.findFirst({
 			where: {
 				verificationToken: code,
-				verificationTokenExpiresAt: { gt: new Date() },
+				verificationTokenExpiresAt: { gt: new Date() }, 
 			},
 		})
+
 		if (!user) {
-			res.status(400).json({ message: 'Verification code is invalid or expired' })
+			res.status(400).json({ message: 'Verification token invalid or expired' })
+			return 
 		}
-	
+		// Update the user to mark as verified
 		await prisma.userAccount.update({
 			where: {
-				id: user?.id,
+				id: user.id,
 			},
 			data: {
 				isVerified: true,
@@ -232,21 +235,30 @@ export const verifyEmail = async (
 				verificationTokenExpiresAt: null,
 			},
 		})
-		const organization =  await prisma.organizations.findFirst({
-			where:{
-				createdBy:user?.email
-			}
+
+		// Find the organization
+		const organization = await prisma.organizations.findFirst({
+			where: {
+				createdBy: user.email,
+			},
 		})
-		const org = organization?.name || '';
-	
-		await	welcomeEmail(user?.email, org)
-		res.status(200).json({success: true, message:'Email verified successfully'})
-		
-	} catch (error) {
-		console.log(error)
-		throw new Error('Error email not verified')
+		const orgName = organization?.name || ''
+
+		// Send the welcome email
+		await welcomeEmail(user.email, orgName)
+
+		// Respond with success
+		res
+			.status(200)
+			.json({ success: true, message: 'Email verified successfully' })
+	} catch (error: any) {
+		// Handle unexpected errors
+		res.status(500).json({ message: error.message })
+		console.error(error)
 	}
 }
+
+
 
 export const login = async (req: Request, res: Response): Promise<void> => { 
 	try {

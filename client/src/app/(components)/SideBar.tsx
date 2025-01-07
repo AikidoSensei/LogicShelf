@@ -1,27 +1,43 @@
-import { Archive, Container, Home, LucideIcon, Menu, PaintBucket, PoundSterling, Settings2, SidebarClose, User, User2 } from 'lucide-react'
+import {
+	Archive,
+	Container,
+	Home,
+	LucideIcon,
+	Menu,
+	PaintBucket,
+	PoundSterling,
+	Settings2,
+	SidebarClose,
+	User,
+	User2,
+} from 'lucide-react'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../redux'
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { setShowSideBar } from '../state';
-
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { setShowSideBar } from '../../state'
 
 const SideBar = () => {
-  const showSideBar = useAppSelector((state)=>state.global.showSideBar);
+	const showSideBar = useAppSelector((state) => state.global.showSideBar)
 
-  console.log(showSideBar)
-  const dispatch = useAppDispatch()
-  interface sideBarLinktypes {
-    href:string,
-    label:string,
-    icon: LucideIcon,
-    sideBarOpen:boolean
-
-  }
-  const SideBarLink = ({href,label, icon:Icon, sideBarOpen}:sideBarLinktypes)=>{
-    const pathname = usePathname()
-    const activeLink = href === pathname || (pathname==='/' && href ==='/dashboard')
-    return (
+	console.log(showSideBar)
+	const dispatch = useAppDispatch()
+	interface sideBarLinktypes {
+		href: string
+		label: string
+		icon: LucideIcon
+		sideBarOpen: boolean
+	}
+	const SideBarLink = ({
+		href,
+		label,
+		icon: Icon,
+		sideBarOpen,
+	}: sideBarLinktypes) => {
+		const pathname = usePathname()
+		const activeLink =
+			href === pathname || (pathname === '/' && href === '/dashboard')
+		return (
 			<Link href={href}>
 				<div
 					className={`flex items-center ${
@@ -43,18 +59,22 @@ const SideBar = () => {
 				</div>
 			</Link>
 		)
-  }
-  const sidebarCn = `fixed flex flex-col justify-between ${
-		showSideBar ? 'w-72 md:w-64' : ' items-center w-0 md:w-16 md:bg-[#761078] py-4 '
+	}
+	const sidebarCn = `fixed flex flex-col justify-between ${
+		showSideBar
+			? 'w-72 md:w-64'
+			: ' items-center w-0 md:w-16 md:bg-[#761078] py-4 '
 	} h-full transition-all duration-200 overflow-hidden shadow-md z-50  bg-white`
-  return (
+	return (
 		<div className={sidebarCn}>
 			{/* logo */}
 			<div className='flex flex-col gap-10 '>
 				<div className=' flex justify-between gap-2 py-4'>
 					<p>Logo</p>
 					<div
-						className={`p-2 bg-slate-300 rounded-xl cursor-pointer ${showSideBar ? 'block':'hidden'}`}
+						className={`p-2 bg-slate-300 rounded-xl cursor-pointer ${
+							showSideBar ? 'block' : 'hidden'
+						}`}
 						onClick={() => dispatch(setShowSideBar(false))}
 					>
 						<SidebarClose />
@@ -62,9 +82,7 @@ const SideBar = () => {
 				</div>
 
 				{/* Links */}
-				<div
-					className={` flex flex-col gap-4  `}
-				>
+				<div className={` flex flex-col gap-4  `}>
 					<SideBarLink
 						href='/dashboard'
 						label='Dashboard'

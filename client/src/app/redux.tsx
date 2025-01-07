@@ -1,3 +1,4 @@
+'use client'
 import { useRef } from 'react'
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import {
@@ -6,8 +7,8 @@ import {
 	useSelector,
 	Provider,
 } from 'react-redux'
-import globalReducer from '@/app/state/index'
-import { api } from '@/app/state/api'
+import globalReducer from '@/state/index'
+import { api } from '@/state/api'
 import { setupListeners } from '@reduxjs/toolkit/query'
 
 import {
@@ -80,7 +81,7 @@ export default function StoreProvider({
 }: {
 	children: React.ReactNode
 }) {
-	const storeRef = useRef<AppStore>(null);
+	const storeRef = useRef<AppStore>(null)
 
 	if (!storeRef.current) {
 		storeRef.current = makeStore()

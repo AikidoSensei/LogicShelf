@@ -1,4 +1,4 @@
-import { useGetMetricsQuery } from '../state/api'
+import { useGetMetricsQuery } from '../../../state/api'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import numeral from 'numeral'
 import React from 'react'

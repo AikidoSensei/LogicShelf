@@ -47,11 +47,49 @@ export interface DashBoardMetrics {
 	expenseSummary: ExpenseSummary[]
 	expenseByCategorySummary: ExpenseByCategorySummary[]
 }
+// SIGNUP ORG ##########
+export interface User {
+	name: string
+	email: string
+	organization: string
+}
+export interface SignUpResponse {
+	message: string
+	user: User
+}
+export interface SignUpBody {
+	name:string
+	email:string
+	password:string
+	organization:string
+}
+interface VerifyResponse {
+	success:boolean
+	message:string
+}
+interface VerifyBody {
+	code:string
+}
+//###############
 export const api = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
 	reducerPath: 'api',
 	tagTypes: ['DashboardMetrics', 'Products', 'Users'],
 	endpoints: (build) => ({
+    signUpOrg: build.mutation<SignUpResponse, SignUpBody>({
+      query: (body) => ({
+        url: '/auth/signup-org',
+        method: 'POST',
+        body,
+      }),
+    }),
+				verifyEmail:build.mutation<VerifyResponse, VerifyBody>({
+					query:(body)=>({
+						url:'/auth/verify-email',
+						method:'POST',
+						body,
+					})
+				}),
 		getMetrics: build.query<DashBoardMetrics, void>({
 			query: () => '/dashboard',
 			providesTags: ['DashboardMetrics'],
@@ -82,4 +120,4 @@ export const api = createApi({
 })
 console.log(process.env.NEXT_PUBLIC_API_BASE_URL)
 
-export const { useGetMetricsQuery, useGetProductsQuery, useCreateProductMutation, useGetUsersQuery } = api
+export const { useSignUpOrgMutation, useVerifyEmailMutation ,useGetMetricsQuery, useGetProductsQuery, useCreateProductMutation, useGetUsersQuery } = api

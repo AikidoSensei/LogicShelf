@@ -24,9 +24,8 @@ const DashBoardLayout = ({ children }: { children: React.ReactNode }) => {
 }
 const DashBoardWrapper = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<StoreProvider>
 			<DashBoardLayout>{children}</DashBoardLayout>
-		</StoreProvider>
+
 	)
 }
 

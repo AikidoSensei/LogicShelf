@@ -1,17 +1,20 @@
 'use client'
-import { useGetProductsQuery, useCreateProductMutation } from '../state/api'
+import {
+	useGetProductsQuery,
+	useCreateProductMutation,
+} from '../../../state/api'
 import { PlusCircleIcon, SearchIcon } from 'lucide-react'
 import { useState } from 'react'
-import Header from '../(components)/Header'
-import Rating from '../(components)/Ratings'
+import Header from '../../(components)/Header'
+import Rating from '../../(components)/Ratings'
 import Image from 'next/image'
 import NewProductModal from './NewProductModal'
 
 type ProductFormData = {
-	name: string;
-	price: number;
-	stockQuantity: number;
-	rating: number;
+	name: string
+	price: number
+	stockQuantity: number
+	rating: number
 }
 
 const Products = () => {
@@ -83,7 +86,8 @@ const Products = () => {
 									width={150}
 									height={150}
 									className='mb-3 rounded-2xl w-36 h-36'
-								/> */}image
+								/> */}
+								image
 								<h3 className='text-lg text-gray-900 font-semibold'>
 									{product.name}
 								</h3>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useGetUsersQuery} from '../state/api'
+import { useGetUsersQuery } from '../app/state/api'
 import Header from '@/app/(components)/Header'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 

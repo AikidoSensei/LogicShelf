@@ -1,7 +1,7 @@
-import { useGetMetricsQuery } from '../state/api'
+import { useGetMetricsQuery } from '../../../state/api'
 import { ShoppingBag } from 'lucide-react'
 import React from 'react'
-import Rating from '../(components)/Ratings'
+import Rating from '../../(components)/Ratings'
 import Image from 'next/image'
 
 const MyPopularProducts = () => {
